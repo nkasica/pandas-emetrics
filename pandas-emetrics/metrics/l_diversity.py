@@ -6,7 +6,24 @@ class KAnonymityAccessor:
         self._obj = pandas_obj
 
     def __call__(self, quasi: list[str], sensitive: list[str]) -> int:
+        """
+        Returns l-diversity value of the dataset
 
+        Parameters
+        ----------
+        quasi: list[str]
+            List of DataFrame's quasi identifiers
+            Example: quasi=['Age', 'Height', 'Weight']
+        sensitive
+            List of DataFrame's sensitive attribute(s)
+            Example: sensitive=['Salary']
+
+        Returns
+        -------
+        int 
+            The calculated l value
+        """
+        
         # get equivalence classes
         equivalence_classes = self._obj.groupby(quasi)
 
