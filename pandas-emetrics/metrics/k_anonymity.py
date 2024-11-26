@@ -26,9 +26,8 @@ class KAnonymityAccessor:
         samples = self._obj[quasi].apply(tuple, axis=1)
 
         # count number of unique samples
-        equivalence_classes = samples.value_counts()
+        equivalence_classes_counts = samples.value_counts()
 
         # return k-value, which is the equivalence class with the minimum unique samples
-        return equivalence_classes.min()
-
+        return equivalence_classes_counts.min()
 
