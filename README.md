@@ -5,3 +5,5 @@
 ### To-Do
 - [ ] [multivariate mondrian algorithm](https://pages.cs.wisc.edu/~lefevre/MultiDim.pdf) to k-anonymize dataset 
 - [ ] further research into possible implementations of [t closeness](https://www.cs.purdue.edu/homes/ninghui/papers/t_closeness_icde07.pdf)
+- [ ] column suppression function (?)
+- [ ] further research into other ethical considerations that could be useful
