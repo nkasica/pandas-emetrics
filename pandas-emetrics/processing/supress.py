@@ -2,13 +2,13 @@ import pandas as pd
 
 # register function as pandas dataframe accessor
 @pd.api.extensions.register_dataframe_accessor("supress")
-class SupressAcessor:
+class SupressAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
     def __call__(self, columns: list[str], supressor: str) -> pd.DataFrame:
         """
-        Returns an updated DataFrame with entries in the given columns supressed.
+        Returns an updated DataFrame with entries in the given columns supressed
         
         Parameters
         ----------

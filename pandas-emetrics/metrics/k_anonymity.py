@@ -8,10 +8,10 @@ class KAnonymityAccessor:
 
     def __call__(self, quasi: list[str]) -> int:
         """
-        Calculates k-anonymity value of the DataFrame
+        Returns k-anonymity value of the DataFrame
 
         Parameters
-        ------------
+        ----------
         quasi: list[str]
             List of DataFrame's quasi identifiers
             Example: quasi=['Age', 'Height', 'Weight']
