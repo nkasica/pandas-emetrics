@@ -1,5 +1,5 @@
 # pandas-emetrics
-`pandas-emetrics` is an in-progress python package built on top of [Pandas](https://pandas.pydata.org/docs/). My goal with this project is to make ethical considerations in relation to data, such as [k-anonymity](https://en.wikipedia.org/wiki/K-anonymity) and [l-diversity](https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf), easily accessable to data scientists, analysts, researchers, and data lovers coming from all backgrounds.
+`pandas-emetrics` is an in-progress python package built on top of [Pandas](https://pandas.pydata.org/docs/). My goal with this project is to make ethical considerations in relation to data, such as [k-anonymity](https://en.wikipedia.org/wiki/K-anonymity) and [l-diversity](https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf), easily accessable to data scientists, analysts, researchers—basically anyone working with data.
 
 
 ### To-Do
