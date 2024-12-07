@@ -8,3 +8,5 @@
 - [ ] further research into other ethical considerations that could be useful
 - [ ] encrypt() function
 - [ ] add unit tests for all functions
+
+### References
