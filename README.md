@@ -10,3 +10,4 @@
 - [ ] research potential encryption options for supress() function
 - [ ] add in-place parameter to functions that modify dataframe
 - [ ] add unit tests for all functions
+- [ ] work on type hinting
