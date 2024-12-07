@@ -3,11 +3,13 @@
 
 
 ### To-Do
-- [ ] [multivariate mondrian algorithm](https://pages.cs.wisc.edu/~lefevre/MultiDim.pdf) to k-anonymize dataset 
+- [ ] implement k_anonymize()
 - [ ] further research into possible implementations of [t closeness](https://www.cs.purdue.edu/homes/ninghui/papers/t_closeness_icde07.pdf)
 - [ ] further research into other ethical considerations that could be useful
 - [ ] encrypt() function
 - [ ] add unit tests for all functions
 
 ### References
-- https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf
+- [K Anonymity](https://www.immuta.com/blog/k-anonymity-everything-you-need-to-know-2021-guide/)
+- [L Diversity](https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf)
+- [Multivariate Mondrian Algorithm](https://pages.cs.wisc.edu/~lefevre/MultiDim.pdf)
