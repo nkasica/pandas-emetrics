@@ -10,3 +10,4 @@
 - [ ] add unit tests for all functions
 
 ### References
+- https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf
