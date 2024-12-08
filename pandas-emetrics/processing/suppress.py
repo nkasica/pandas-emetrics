@@ -1,19 +1,19 @@
 import pandas as pd
 
 # register function as pandas dataframe accessor
-@pd.api.extensions.register_dataframe_accessor("supress")
+@pd.api.extensions.register_dataframe_accessor("suppress")
 class SupressAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
-    def __call__(self, columns: list[str], supressor: str, inplace: bool=False) -> pd.DataFrame:
+    def __call__(self, columns: list[str], suppressor: str, inplace: bool=False) -> pd.DataFrame:
         """
-        Returns an updated DataFrame with entries in the given columns supressed
+        Returns an updated DataFrame with entries in the given columns suppressed
         
         Parameters
         ----------
         columns: list[str]
-            List of DataFrame's columns to supress
+            List of DataFrame's columns to suppress
             Example: columns=['Name', 'ID']
 
         supressor: str
@@ -27,14 +27,14 @@ class SupressAccessor:
         Returns
         -------
         pd.DataFrame
-            DataFrame with supressed columns
+            DataFrame with suppressed columns
         """
 
         # in-place modification
         if inplace:
             # replaces all values in given columns with the supressor
             for column in columns:
-                self._obj[column] = supressor
+                self._obj[column] = suppressor
 
             return self._obj
 
@@ -43,6 +43,6 @@ class SupressAccessor:
             df = self._obj.copy(deep=True)
 
             for column in columns:
-                df[column] = supressor
+                df[column] = suppressor
 
             return df

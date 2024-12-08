@@ -23,5 +23,5 @@ setup(
         'License :: OSI Approved :: MIT License'
     ],
     license='MIT',
-    install_requires=['pandas']
+    install_requires=['pandas', 'numpy']
 )

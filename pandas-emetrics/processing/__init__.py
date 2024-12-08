@@ -1,3 +1,3 @@
-from .supress import SupressAcessor
+from .suppress import SupressAcessor
 
-__all__ = ['supress']
+__all__ = ['suppress']
