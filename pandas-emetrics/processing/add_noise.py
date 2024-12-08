@@ -6,7 +6,7 @@ from typing import Literal
 class AddNoiseAccessor:
 
     _TRANSFORMATIONS = Literal['laplace', 'gaussian']
-    _SENSITIVITIES = Literal['count']
+    _SENSITIVITIES = Literal['count', 'mean']
 
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
@@ -14,6 +14,34 @@ class AddNoiseAccessor:
     def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: _SENSITIVITIES='count',
                    type: _TRANSFORMATIONS='laplace') -> pd.DataFrame:
         """
+        Adds noise to the specifed columns in a way that is in-line with differential privacy.
+
+        Parameters
+        ----------
+        columns: list[str]
+            Numeric columns to add noise to
+            Example: columns=['Salary']
+
+        epsilon: float
+            Quantifies the level of privacy protection. Smaller epsilon values yield increased 
+                privacy at the risk of degenerated data utility. Defaults to 0.5
+            Example: epsilon=0.01
+        
+        sensitivity: 'count' or 'mean'
+            Indicated which type of query is being perfomed on the DataFrame. In differential privacy,
+                sensitivity represents MAX(|f(D1) - f(D2)|). In our case, we are picking what function to 
+                use for 'f' in that equation.
+            Example: sensitivity='mean'
+
+
+        type: 'laplace' or 'gaussian'
+            Indicates the type of noise to be added. Defaults to 'laplace'
+            Example: type='gaussian'
+
+        Returns
+        -------
+        pd.DataFrame
+            DataFrame with added noise
         """
 
         # number of samples
@@ -27,8 +55,3 @@ class AddNoiseAccessor:
             self._obj[column] += noise
 
         return self._obj
-            
-        
-
-        
-
