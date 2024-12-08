@@ -15,3 +15,4 @@
 - [L Diversity](https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf)
 - [Multivariate Mondrian Algorithm](https://pages.cs.wisc.edu/~lefevre/MultiDim.pdf)
 - [Noise and Differential Privacy](https://arxiv.org/pdf/1309.3958)
+- A great [YouTube series](https://www.youtube.com/playlist?list=PLZeK3TZueogEhGK0kTztL5ALQ_MkxgFCv) explaining many topics I implemented
