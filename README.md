@@ -14,3 +14,4 @@
 - [K Anonymity](https://www.immuta.com/blog/k-anonymity-everything-you-need-to-know-2021-guide/)
 - [L Diversity](https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf)
 - [Multivariate Mondrian Algorithm](https://pages.cs.wisc.edu/~lefevre/MultiDim.pdf)
+- [Noise and Differential Privacy](https://arxiv.org/pdf/1309.3958)
