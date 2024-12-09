@@ -11,10 +11,34 @@ class AddNoiseAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
+    def calc_sens_mean(column: pd.Series):
+        """
+        Calculates local sensitivity for differential privacy when using the mean as a query
+        """
+
+        # sample size
+        n = len(column)
+
+        if n <= 1:
+            return 0
+    
+        # convert to nparray
+        d = column.to_numpy()
+
+        davg = np.average(d)
+        dsum = np.sum(d)
+
+        # finds max(|avg(all samples) - avg(all samples - curr sample)|) for each sample
+        # average(dprime) = (sum(d) - d[i]) / (n - 1)
+        # sensitivity[i] = |davg - average(dprime)|
+        sensitivities = np.abs(davg - (dsum - d) / n - 1)
+
+        return np.max(sensitivities)
+
     def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: _SENSITIVITIES='count',
                    type: _TRANSFORMATIONS='laplace') -> pd.DataFrame:
         """
-        Adds noise to the specifed columns in a way that is in-line with differential privacy.
+        Adds noise to the specifed columns in a way that is in-line with differential privacy
 
         Parameters
         ----------
@@ -33,7 +57,6 @@ class AddNoiseAccessor:
                 use for 'f' in that equation.
             Example: sensitivity='mean'
 
-
         type: 'laplace' or 'gaussian'
             Indicates the type of noise to be added. Defaults to 'laplace'
             Example: type='gaussian'
@@ -48,10 +71,14 @@ class AddNoiseAccessor:
         n = self._obj.shape[0]
 
         if sensitivity == 'count':
+            mean = False
             b = 1 / epsilon
+        elif sensitivity == 'mean':
+            mean = True
 
+        
         for column in columns:
-            noise = np.random.laplace(0, b, n)
+            noise = np.random.laplace(0, AddNoiseAccessor.calc_sens_mean(column) if mean else b, n)
             self._obj[column] += noise
 
         return self._obj
