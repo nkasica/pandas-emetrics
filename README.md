@@ -9,7 +9,7 @@
 - [ ] encrypt() function
 - [ ] add unit tests for all functions
 - [X] ~~add_noise()~~ function
-- [ ] add more sensitivities to diff_privacy
+- [ ] add more sensitivities to diff_privacy ~~mean~~ , median, sum
 
 ### References
 - [K Anonymity](https://www.immuta.com/blog/k-anonymity-everything-you-need-to-know-2021-guide/)
