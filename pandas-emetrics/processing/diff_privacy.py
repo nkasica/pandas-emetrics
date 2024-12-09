@@ -78,7 +78,7 @@ class AddNoiseAccessor:
 
         
         for column in columns:
-            noise = np.random.laplace(0, AddNoiseAccessor.calc_sens_mean(column) if mean else b, n)
+            noise = np.random.laplace(0, AddNoiseAccessor.calc_sens_mean(column) / epsilon if mean else b, n)
             self._obj[column] += noise
 
         return self._obj
