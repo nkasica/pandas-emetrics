@@ -6,21 +6,15 @@ from typing import Literal
 class AddNoiseAccessor:
 
     _TRANSFORMATIONS = Literal['laplace', 'gaussian']
-    _SENSITIVITIES = Literal['count', 'mean']
+    _SENSITIVITIES = Literal['count', 'mean', 'sum']
 
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
-    def calc_sens_mean(column: pd.Series):
+    def calc_sens_mean(column: pd.Series, n: int):
         """
-        Calculates local sensitivity for differential privacy when using the mean as a query
+        Calculates sensitivity for differential privacy when using the mean as a query
         """
-
-        # sample size
-        n = len(column)
-
-        if n <= 1:
-            return 0
     
         # convert to nparray
         d = column.to_numpy()
@@ -34,6 +28,25 @@ class AddNoiseAccessor:
         sensitivities = np.abs(davg - (dsum - d) / n - 1)
 
         return np.max(sensitivities)
+
+    def calc_sens_sum(column: pd.Series):
+        """
+        Calculates sensitivity for differential privacy when using the sum as a query
+        """
+
+        d = column.to_numpy()
+
+        dsum = np.sum(d)
+
+        # finds max(|sum(all samples) - sum(all samples - curr samples)|) for each sample
+        sensitivities = np.abs(dsum - d)
+
+        return np.max(sensitivities)
+
+    def calc_sum_median(column: pd.Series):
+        """
+        Calculates sensitivity for differential privacy when using the median as a query
+        """
 
     def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: _SENSITIVITIES='count',
                    type: _TRANSFORMATIONS='laplace') -> pd.DataFrame:
@@ -70,15 +83,19 @@ class AddNoiseAccessor:
         # number of samples
         n = self._obj.shape[0]
 
-        if sensitivity == 'count':
-            mean = False
-            b = 1 / epsilon
+        # create sensitivity list for each column based on query
+        if n <= 1:
+            sens_vals = [0 * len(columns)]
+        elif sensitivity == 'count':
+            sens_vals = [(1 / epsilon) * len(columns)]
         elif sensitivity == 'mean':
-            mean = True
-
-        
-        for column in columns:
-            noise = np.random.laplace(0, AddNoiseAccessor.calc_sens_mean(column) / epsilon if mean else b, n)
+            sens_vals = [AddNoiseAccessor.calc_sens_mean(column, n) / epsilon for column in columns]
+        elif sensitivity == 'sum':
+            sens_vals = [AddNoiseAccessor.calc_sens_sum(column) / epsilon for column in columns]
+  
+        # add noise to each column
+        for idx, column in enumerate(columns):
+            noise = np.random.laplace(0, sens_vals[idx], n)
             self._obj[column] += noise
 
         return self._obj
