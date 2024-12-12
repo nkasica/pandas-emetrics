@@ -43,10 +43,25 @@ class AddNoiseAccessor:
 
         return np.max(sensitivities)
 
-    def calc_sum_median(column: pd.Series):
+    def calc_sens_median(column: pd.Series, n: int):
         """
         Calculates sensitivity for differential privacy when using the median as a query
         """
+
+        d = column.to_numpy()
+        d = np.sort(d)
+
+        dmed = np.median(d)
+        max_sens = -1
+
+        # compares max(|median(all samples) - median(all samples - current sample)) 
+        # for each sample with the current maximum sensitivity
+        for i in range(n):
+            dprime = np.concatenate(d[:i], d[i+1:]) # removes one element from the list at a time
+            curr_sens = np.abs(dmed - np.median(dprime))
+            max_sens = np.max(max_sens, curr_sens)
+            
+        return max_sens
 
     def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: _SENSITIVITIES='count',
                    type: _TRANSFORMATIONS='laplace') -> pd.DataFrame:
@@ -92,6 +107,8 @@ class AddNoiseAccessor:
             sens_vals = [AddNoiseAccessor.calc_sens_mean(column, n) / epsilon for column in columns]
         elif sensitivity == 'sum':
             sens_vals = [AddNoiseAccessor.calc_sens_sum(column) / epsilon for column in columns]
+        else:
+            sens_vals = [AddNoiseAccessor.calc_sens_median(column, n) / epsilon for column in columns]
   
         # add noise to each column
         for idx, column in enumerate(columns):
