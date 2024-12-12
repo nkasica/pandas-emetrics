@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='pandas_emetrics',
@@ -7,11 +7,7 @@ setup(
     author='Noah Kasica',
     author_email='nkasica21@gmail.com',
     url='https://github.com/nkasica/pandas-emetrics',
-    packages=[
-        'pandas_emetrics',
-        'pandas_emetrics.metrics',
-        'pandas_emetrics.processing'
-    ],
+    packages=find_packages(),
     keywords=['data science', 'ethics', 'pandas', 'python3'],
     classifiers=[
         'Development Status :: 1 - Planning',
