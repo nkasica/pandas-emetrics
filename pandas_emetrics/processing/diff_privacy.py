@@ -6,7 +6,7 @@ from typing import Literal
 class AddNoiseAccessor:
 
     _TRANSFORMATIONS = Literal['laplace', 'gaussian']
-    _SENSITIVITIES = Literal['count', 'mean', 'sum']
+    _SENSITIVITIES = Literal['count', 'mean', 'sum', 'median']
 
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
