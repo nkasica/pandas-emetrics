@@ -112,7 +112,7 @@ class AddNoiseAccessor:
   
         # add noise to each column
         for idx, column in enumerate(columns):
-            noise = np.random.laplace(0, sens_vals[idx], n)
+            noise = np.random.laplace(0, sens_vals[idx], n) if type == 'laplace' else np.random.normal(0, sens_vals[idx], n)
             self._obj[column] += noise
 
         return self._obj
