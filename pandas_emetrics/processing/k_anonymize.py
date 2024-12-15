@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 # register function as pandas dataframe accessor
 @pd.api.extensions.register_dataframe_accessor("k_anonymize")
@@ -6,14 +7,27 @@ class KAnonymizeAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
+    def is_number(value) -> bool:
+        """
+        Returns true if a dtype is any numeric dtype
+        """
+        return np.issubdtype(value, np.number)
+
     def summary(partition: pd.DataFrame, quasi: list[str]) -> pd.DataFrame:
         """
         Generalize each partition for each quasi identifier based on min-max range.
         """
         for id in quasi:
             partition = partition.sort_values(by=id)
-            s = f'[{partition[id].iloc[0]}-{partition[id].iloc[-1]}]'
-            partition[id] = [s] * partition[id].size
+
+            print(partition[id].dtype)
+
+            if KAnonymizeAccessor.is_number(partition[id].dtype):
+                s = f'[{partition[id].iloc[0]}-{partition[id].iloc[-1]}]'
+                partition[id] = [s] * partition[id].size
+            else: # handles non numeric element types
+                unique_lst = partition[id].unique()
+                partition[id] = [unique_lst] * partition[id].size
 
         return partition
 
