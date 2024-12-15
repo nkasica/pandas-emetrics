@@ -55,8 +55,8 @@ class KAnonymizeAccessor:
 
     def __call__(self, quasi: list[str], k: int) -> pd.DataFrame:
         """
-        Returns DataFrame, if possible, after being k-anonymized with the given k value.
-        This operation is not in place and only works for numeric data point.
+        Returns DataFrame, if possible, after being k-anonymized with the given k value. 
+        This operation is not in place.
 
         Parameters
         ----------
