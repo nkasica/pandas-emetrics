@@ -6,7 +6,7 @@
 - [ ] further research into possible implementations of [t closeness](https://www.cs.purdue.edu/homes/ninghui/papers/t_closeness_icde07.pdf)
 - [ ] further research into other ethical considerations that could be useful
 - [ ] encrypt() function
-- [ ] add unit tests for all functions
+- [ ] continue unit testing
 
 ### References
 - [K Anonymity](https://www.immuta.com/blog/k-anonymity-everything-you-need-to-know-2021-guide/)
