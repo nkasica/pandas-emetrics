@@ -2,7 +2,7 @@ import pandas as pd
 
 # register function as pandas dataframe accessor
 @pd.api.extensions.register_dataframe_accessor("suppress")
-class SupressAccessor:
+class SuppressAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
