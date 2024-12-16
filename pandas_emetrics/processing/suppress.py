@@ -30,6 +30,9 @@ class SuppressAccessor:
             DataFrame with suppressed columns
         """
 
+        if not isinstance(suppressor, str):
+            raise ValueError("Suppressor must be a string")
+
         # in-place modification
         if inplace:
             # replaces all values in given columns with the supressor
