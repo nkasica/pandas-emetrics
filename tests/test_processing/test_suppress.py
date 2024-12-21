@@ -31,8 +31,13 @@ class TestSupress(unittest.TestCase):
          self.assertTrue(new_df.equals(correct_df))
          self.assertFalse(df.equals(new_df))
 
+    def test_nonstring_suppressor(self):
+        df, _ = create_sample_df()
+
+        # use lambda so suppress() does not evaluate before assertRaises() is called
+        self.assertRaises(ValueError, lambda: df.suppress(columns=['ID'], suppressor=1234, inplace=True))
+        self.assertRaises(ValueError, lambda: df.suppress(columns=['ID'], suppressor=['*'], inplace=True))
 
 
 if __name__ == '__main__':
     unittest.main()
-        
