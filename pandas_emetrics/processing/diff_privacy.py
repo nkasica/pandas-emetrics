@@ -2,11 +2,8 @@ import pandas as pd
 import numpy as np
 from typing import Literal
 
-@pd.api.extensions.register_dataframe_accessor("add_noise")
+@pd.api.extensions.register_dataframe_accessor("diff_privacy")
 class AddNoiseAccessor:
-
-    _TRANSFORMATIONS = Literal['laplace', 'gaussian']
-    _SENSITIVITIES = Literal['count', 'mean', 'sum', 'median']
 
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
@@ -63,8 +60,7 @@ class AddNoiseAccessor:
             
         return max_sens
 
-    def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: _SENSITIVITIES='count',
-                   type: _TRANSFORMATIONS='laplace') -> pd.DataFrame:
+    def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: str='count', type: str='laplace') -> pd.DataFrame:
         """
         Adds noise to the specifed columns in a way that is in-line with differential privacy
 
@@ -95,6 +91,12 @@ class AddNoiseAccessor:
             DataFrame with added noise
         """
 
+        # assert type paramter is valid
+        if (type != 'laplace' or type != 'gaussian'):
+            raise ValueError('Incorrect type argument. Please use "laplace" or "gaussian".')
+
+        ann = AddNoiseAccessor()
+
         # number of samples
         n = self._obj.shape[0]
 
@@ -104,11 +106,13 @@ class AddNoiseAccessor:
         elif sensitivity == 'count':
             sens_vals = [(1 / epsilon) * len(columns)]
         elif sensitivity == 'mean':
-            sens_vals = [AddNoiseAccessor.calc_sens_mean(column, n) / epsilon for column in columns]
+            sens_vals = [ann.calc_sens_mean(column, n) / epsilon for column in columns]
         elif sensitivity == 'sum':
-            sens_vals = [AddNoiseAccessor.calc_sens_sum(column) / epsilon for column in columns]
+            sens_vals = [ann.calc_sens_sum(column) / epsilon for column in columns]
+        elif sensitivity == 'median':
+            sens_vals = [ann.calc_sens_median(column, n) / epsilon for column in columns]
         else:
-            sens_vals = [AddNoiseAccessor.calc_sens_median(column, n) / epsilon for column in columns]
+            raise ValueError('Incorrect sensitivity argument. Please use "count", "mean", "sum", or "median".')
   
         # add noise to each column
         for idx, column in enumerate(columns):
