@@ -60,7 +60,8 @@ class AddNoiseAccessor:
             
         return max_sens
 
-    def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: str='count', type: str='laplace') -> pd.DataFrame:
+    def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: str='count', 
+                 type: str='laplace', inplace: bool=False) -> pd.DataFrame:
         """
         Adds noise to the specifed columns in a way that is in-line with differential privacy
 
@@ -85,20 +86,28 @@ class AddNoiseAccessor:
             Indicates the type of noise to be added. Defaults to 'laplace'
             Example: type='gaussian'
 
+        inplace: bool
+            Specifies whether or not this action modifies the DataFrame in-place, overriding values. 
+            Defaults to False.
+            Example: inplace=True
+
         Returns
         -------
         pd.DataFrame
             DataFrame with added noise
         """
 
+        if inplace:
+            df = self._obj
+        else:
+            df = self._obj.copy(deep=True)
+
         # assert type paramter is valid
-        if (type != 'laplace' or type != 'gaussian'):
+        if (type != 'laplace' and type != 'gaussian'):
             raise ValueError('Incorrect type argument. Please use "laplace" or "gaussian".')
 
-        ann = AddNoiseAccessor()
-
         # number of samples
-        n = self._obj.shape[0]
+        n = df.shape[0]
 
         # create sensitivity list for each column based on query
         if n <= 1:
@@ -106,17 +115,17 @@ class AddNoiseAccessor:
         elif sensitivity == 'count':
             sens_vals = [(1 / epsilon) * len(columns)]
         elif sensitivity == 'mean':
-            sens_vals = [ann.calc_sens_mean(column, n) / epsilon for column in columns]
+            sens_vals = [AddNoiseAccessor().calc_sens_mean(column, n) / epsilon for column in columns]
         elif sensitivity == 'sum':
-            sens_vals = [ann.calc_sens_sum(column) / epsilon for column in columns]
+            sens_vals = [AddNoiseAccessor().calc_sens_sum(column) / epsilon for column in columns]
         elif sensitivity == 'median':
-            sens_vals = [ann.calc_sens_median(column, n) / epsilon for column in columns]
+            sens_vals = [AddNoiseAccessor().calc_sens_median(column, n) / epsilon for column in columns]
         else:
             raise ValueError('Incorrect sensitivity argument. Please use "count", "mean", "sum", or "median".')
   
         # add noise to each column
         for idx, column in enumerate(columns):
             noise = np.random.laplace(0, sens_vals[idx], n) if type == 'laplace' else np.random.normal(0, sens_vals[idx], n)
-            self._obj[column] += noise
+            df[column] += noise
 
-        return self._obj
+        return df
