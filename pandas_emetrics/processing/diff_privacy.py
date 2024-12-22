@@ -76,7 +76,7 @@ class AddNoiseAccessor:
                 privacy at the risk of degenerated data utility. Defaults to 0.5
             Example: epsilon=0.01
         
-        sensitivity: 'count' or 'mean'
+        sensitivity: 'count', 'mean', 'sum', or 'median'
             Indicated which type of query is being perfomed on the DataFrame. In differential privacy,
                 sensitivity represents MAX(|f(D1) - f(D2)|). In our case, we are picking what function to 
                 use for 'f' in that equation.
@@ -115,11 +115,11 @@ class AddNoiseAccessor:
         elif sensitivity == 'count':
             sens_vals = [(1 / epsilon) * len(columns)]
         elif sensitivity == 'mean':
-            sens_vals = [AddNoiseAccessor().calc_sens_mean(column, n) / epsilon for column in columns]
+            sens_vals = [AddNoiseAccessor.calc_sens_mean(df[column], n) / epsilon for column in columns]
         elif sensitivity == 'sum':
-            sens_vals = [AddNoiseAccessor().calc_sens_sum(column) / epsilon for column in columns]
+            sens_vals = [AddNoiseAccessor.calc_sens_sum(df[column]) / epsilon for column in columns]
         elif sensitivity == 'median':
-            sens_vals = [AddNoiseAccessor().calc_sens_median(column, n) / epsilon for column in columns]
+            sens_vals = [AddNoiseAccessor.calc_sens_median(df[column], n) / epsilon for column in columns]
         else:
             raise ValueError('Incorrect sensitivity argument. Please use "count", "mean", "sum", or "median".')
   
