@@ -33,12 +33,8 @@ class AddNoiseAccessor:
 
         d = column.to_numpy()
 
-        dsum = np.sum(d)
-
         # finds max(|sum(all samples) - sum(all samples - curr samples)|) for each sample
-        sensitivities = np.abs(dsum - d)
-
-        return np.max(sensitivities)
+        return np.max(np.abs(d))
 
     def calc_sens_median(column: pd.Series, n: int):
         """
@@ -49,19 +45,19 @@ class AddNoiseAccessor:
         d = np.sort(d)
 
         dmed = np.median(d)
-        max_sens = -1
+        max_sens = -1.0
 
         # compares max(|median(all samples) - median(all samples - current sample)) 
         # for each sample with the current maximum sensitivity
         for i in range(n):
-            dprime = np.concatenate(d[:i], d[i+1:]) # removes one element from the list at a time
+            dprime = np.concatenate((d[:i], d[i+1:])) # removes one element from the list at a time
             curr_sens = np.abs(dmed - np.median(dprime))
-            max_sens = np.max(max_sens, curr_sens)
+            max_sens = max(max_sens, curr_sens)
             
         return max_sens
 
     def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: str='count', 
-                 type: str='laplace', inplace: bool=False) -> pd.DataFrame:
+                 noise: str='laplace', inplace: bool=False) -> None | pd.DataFrame:
         """
         Adds noise to the specifed columns in a way that is in-line with differential privacy
 
@@ -82,9 +78,9 @@ class AddNoiseAccessor:
                 use for 'f' in that equation.
             Example: sensitivity='mean'
 
-        type: 'laplace' or 'gaussian'
+        noise: 'laplace' or 'gaussian'
             Indicates the type of noise to be added. Defaults to 'laplace'
-            Example: type='gaussian'
+            Example: noise='gaussian'
 
         inplace: bool
             Specifies whether or not this action modifies the DataFrame in-place, overriding values. 
@@ -93,17 +89,14 @@ class AddNoiseAccessor:
 
         Returns
         -------
-        pd.DataFrame
-            DataFrame with added noise
+        None | pd.DataFrame
+            Returns None in 'inplace=True'. Otherwise, returns DataFrame with added noise.
         """
 
-        if inplace:
-            df = self._obj
-        else:
-            df = self._obj.copy(deep=True)
+        df = self._obj if inplace else self._obj.copy(deep=True)
 
         # assert type paramter is valid
-        if (type != 'laplace' and type != 'gaussian'):
+        if (noise != 'laplace' and noise != 'gaussian'):
             raise ValueError('Incorrect type argument. Please use "laplace" or "gaussian".')
 
         # number of samples
@@ -128,4 +121,4 @@ class AddNoiseAccessor:
             noise = np.random.laplace(0, sens_vals[idx], n) if type == 'laplace' else np.random.normal(0, sens_vals[idx], n)
             df[column] += noise
 
-        return df
+        return None if inplace else df
