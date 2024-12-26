@@ -6,7 +6,7 @@ class SuppressAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
-    def __call__(self, columns: list[str], suppressor: str, inplace: bool=False) -> pd.DataFrame:
+    def __call__(self, columns: list[str], suppressor: str, inplace: bool=False) -> None | pd.DataFrame:
         """
         Returns an updated DataFrame with entries in the given columns suppressed
         
@@ -26,8 +26,8 @@ class SuppressAccessor:
 
         Returns
         -------
-        pd.DataFrame
-            DataFrame with suppressed columns
+        None | pd.DataFrame
+            Returns None if 'inplace=True'. Otherwise, returns DataFrame with suppressed columns
         """
 
         if not isinstance(suppressor, str):
@@ -39,7 +39,7 @@ class SuppressAccessor:
             for column in columns:
                 self._obj[column] = suppressor
 
-            return self._obj
+            return None
 
         else:
             # create copy of dataframe
