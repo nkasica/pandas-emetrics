@@ -21,18 +21,20 @@ class KAnonymityAccessor:
         Returns
         -------
         int 
-            The calculated l value
+            The calculated l-value
         """
         
         # get equivalence classes
         equivalence_classes = self._obj.groupby(quasi)
 
-        # define list to hold unique sensitive attribute counts
-        unique_sens_vals = []
+        # l-value will never be > num of samples
+        min = len(self._obj)
 
-        # iterate through equivalence classes, summing up the number of unique sensitive values 
         for _, group in equivalence_classes:
-            unique_sens_vals.append(group[sensitive].nunique().sum())
 
-        # return l-value, which is the minimum number of unique sensitive attributes in all equivalence classes
-        return min(unique_sens_vals)
+            # num of unique sensitive attribute values in this equivalence class
+            l_eq = group[sensitive].nunique().sum()
+
+            min = l_eq if l_eq < min else min
+
+        return min
