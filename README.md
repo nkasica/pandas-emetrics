@@ -7,6 +7,7 @@
 - [ ] further research into other ethical considerations that could be useful
 - [ ] encrypt() function
 - [ ] continue unit testing
+- [ ] fix sum sensitivity helper for diff privacy
 
 ### References
 - [K Anonymity](https://www.immuta.com/blog/k-anonymity-everything-you-need-to-know-2021-guide/)
