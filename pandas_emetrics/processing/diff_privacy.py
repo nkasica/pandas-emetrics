@@ -83,7 +83,7 @@ class AddNoiseAccessor:
             Example: noise='gaussian'
 
         inplace: bool
-            Specifies whether or not this action modifies the DataFrame in-place, overriding values. 
+            Specifies whether or not this action modifies the DataFrame in-place, overriding current values. 
             Defaults to False.
             Example: inplace=True
 
