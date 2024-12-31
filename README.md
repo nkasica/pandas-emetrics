@@ -8,7 +8,7 @@
 - [ ] encrypt() function
 - [ ] continue unit testing
 - [ ] fix sum sensitivity helper for diff privacy
-
+- [ ] fix l diversity working for only one sensitive attribute
 ### References
 - [K Anonymity](https://www.immuta.com/blog/k-anonymity-everything-you-need-to-know-2021-guide/)
 - [L Diversity](https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf)
