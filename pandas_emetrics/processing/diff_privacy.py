@@ -31,7 +31,12 @@ class AddNoiseAccessor:
         Calculates sensitivity for differential privacy when using the sum as a query
         """
 
+        # min-max normalization so data points are between [0, 1]
+        # this helps prevent unbounded values and outliers affecting noise
         d = column.to_numpy()
+        min_d = min(d)
+        max_d = max(d)
+        d = (d - min_d) / (max_d - min_d)
 
         # finds max(|sum(all samples) - sum(all samples - curr samples)|) for each sample
         return np.max(np.abs(d))

@@ -24,10 +24,8 @@ class TestDiffPrivacy(unittest.TestCase):
             # get summary stats
             summary_stats_after = new_df['Scholarship Dollars'].describe()
 
-            print(f"Type: {q}, B4: {summary_stats_before['mean']}, AFTER: {summary_stats_after['mean']}")
-
-            # self.assertAlmostEqual(summary_stats_before['mean'], summary_stats_after['mean'], delta=1000)
-            # does not work. look into sum query more. may be because of outliers
+            self.assertAlmostEqual(summary_stats_before['mean'], summary_stats_after['mean'], delta=250)
+            self.assertAlmostEqual(summary_stats_before['std'], summary_stats_after['std'], delta=250)
 
     def test_inplace(self):
         # create original test DataFrame and retain original values
