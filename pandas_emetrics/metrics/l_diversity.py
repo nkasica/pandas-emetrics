@@ -32,9 +32,10 @@ class KAnonymityAccessor:
 
         for _, group in equivalence_classes:
 
-            # num of unique sensitive attribute values in this equivalence class
-            l_eq = group[sensitive].nunique().sum()
+            for attr in sensitive:
+                # num of unique equivalence class combinations 
+                l_eq = group[attr].drop_duplicates().shape[0]
 
-            min_l = min(l_eq, min_l)
+                min_l = min(l_eq, min_l)
 
         return min_l
