@@ -28,13 +28,13 @@ class KAnonymityAccessor:
         equivalence_classes = self._obj.groupby(quasi)
 
         # l-value will never be > num of samples
-        min = len(self._obj)
+        min_l = len(self._obj)
 
         for _, group in equivalence_classes:
 
             # num of unique sensitive attribute values in this equivalence class
             l_eq = group[sensitive].nunique().sum()
 
-            min = l_eq if l_eq < min else min
+            min_l = min(l_eq, min_l)
 
-        return min
+        return min_l
