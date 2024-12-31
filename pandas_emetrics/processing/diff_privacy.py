@@ -64,7 +64,7 @@ class AddNoiseAccessor:
     def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: str='count', 
                  noise: str='laplace', inplace: bool=False) -> None | pd.DataFrame:
         """
-        Adds noise to the specifed columns in a way that is in-line with differential privacy
+        Adds noise to the specifed columns in a way that is in-line with differential privacy techniques
 
         Parameters
         ----------
