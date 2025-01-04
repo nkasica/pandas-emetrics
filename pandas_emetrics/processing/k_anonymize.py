@@ -91,6 +91,10 @@ class KAnonymizeAccessor:
         anonymized_df = KAnonymizeAccessor.anonymize(self._obj, quasi, frequency_set, k).sort_index()
 
         if inplace:
+            # reassign dtypes to prevent warnings
+            for col in anonymized_df.columns:
+                self._obj[col] = self._obj[col].astype(anonymized_df[col].dtype)
+
             self._obj[:] = anonymized_df
             return None
         else:
