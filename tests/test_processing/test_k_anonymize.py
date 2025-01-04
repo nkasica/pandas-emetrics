@@ -1,6 +1,8 @@
 from pandas_emetrics.processing import k_anonymize
+from pandas_emetrics.metrics import k_anonymity
 import pandas as pd
 import unittest
+import random
 
 class TestKAnonymize(unittest.TestCase):
 
@@ -25,7 +27,29 @@ class TestKAnonymize(unittest.TestCase):
 
         self.assertTrue(df.equals(orig_df))
         self.assertTrue(new_df.equals(correct_df))
+
+    def test_anonymize(self):
+        q1 = []
+        q2 = []
+        for _ in range(100):
+            q1.append(random.randint(0, 99))
+            q2.append(random.randint(100, 200))
+
+        df = pd.DataFrame({'Q1': q1, 'Q2': q2})
+
+        # tests df on k = [1, ... , 100]
+        for k in range(1, 101):
+            anon_df = df.k_anonymize(quasi=['Q1', 'Q2'], k=k)
+            # test if k >= because if k = x anonymous, k also = x-1, x-2, ..., 1 anonymous 
+            self.assertTrue(anon_df.k_anonymity(quasi=['Q1', 'Q2']) >= k)
     
+    def test_exceptions(self):
+        df = pd.DataFrame({'Q1': [1, 2, 3, 4, 5]})
+
+        self.assertRaises(ValueError, lambda: df.k_anonymize(quasi=['Q1'], k=6))
+        self.assertRaises(ValueError, lambda: df.k_anonymize(quasi=['Q1'], k=0))
+        self.assertRaises(ValueError, lambda: df.k_anonymize(quasi=['Q1'], k=-100))
+
 
 if __name__ == '__main__':
     unittest.main()
