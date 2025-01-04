@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from typing import Literal
 
 @pd.api.extensions.register_dataframe_accessor("diff_privacy")
 class AddNoiseAccessor:
@@ -95,7 +94,7 @@ class AddNoiseAccessor:
         Returns
         -------
         None | pd.DataFrame
-            Returns None in 'inplace=True'. Otherwise, returns DataFrame with added noise.
+            Returns None if 'inplace=True'. Otherwise, returns DataFrame with added noise.
         """
 
         df = self._obj if inplace else self._obj.copy(deep=True)
