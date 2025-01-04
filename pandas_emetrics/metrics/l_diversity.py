@@ -1,7 +1,7 @@
 import pandas as pd
 
 @pd.api.extensions.register_dataframe_accessor("l_diversity")
-class KAnonymityAccessor:
+class LDiversityAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
