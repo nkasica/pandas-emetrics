@@ -4,6 +4,7 @@ import numpy as np
 # register function as pandas dataframe accessor
 @pd.api.extensions.register_dataframe_accessor("k_anonymize")
 class KAnonymizeAccessor:
+     
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
@@ -11,16 +12,16 @@ class KAnonymizeAccessor:
         """
         Returns true if a dtype is any numeric dtype
         """
+
         return np.issubdtype(value, np.number)
 
     def summary(partition: pd.DataFrame, quasi: list[str]) -> pd.DataFrame:
         """
         Generalize each partition for each quasi identifier based on min-max range.
         """
+
         for id in quasi:
             partition = partition.sort_values(by=id)
-
-            print(partition[id].dtype)
 
             if KAnonymizeAccessor.is_number(partition[id].dtype):
                 s = f'[{partition[id].iloc[0]}-{partition[id].iloc[-1]}]'
@@ -53,10 +54,10 @@ class KAnonymizeAccessor:
         # return partitioned grouping to be generalized
         return KAnonymizeAccessor.summary(partition, quasi)
 
-    def __call__(self, quasi: list[str], k: int) -> pd.DataFrame:
+    def __call__(self, quasi: list[str], k: int, inplace: bool=False) -> None | pd.DataFrame:
         """
-        Returns DataFrame, if possible, after being k-anonymized with the given k value. 
-        This operation is not in place.
+        Applies the multivariate mondrian algorithim to k-anonymize the DataFrame. This 
+        partitioning is relaxed, meaning equivalence classes can have overlapping bounds.
 
         Parameters
         ----------
@@ -65,12 +66,16 @@ class KAnonymizeAccessor:
             Example: quasi=['Age', 'Height', 'Weight']
         k: int
             The k-value for anonymization
-            Example: k=3   
+            Example: k=3
+        inplace: bool
+            Specifies whether or not this action modifies the DataFrame in-place, overriding current values.
+            Defaults to False.
+            Example: inplace=True
 
         Returns
         -------
-        pd.DataFrame
-            K-Anonymized DataFrame, if possible
+        None | pd.DataFrame
+            Returns None in 'inplace=True'. Otherwise, returns k-anonymized DataFrame.
         """ 
 
         if k > self._obj.shape[0]:
@@ -84,4 +89,10 @@ class KAnonymizeAccessor:
         # sort by value descending
         frequency_set = sorted(frequency_set.items(), key=lambda x: x[1], reverse=True)
 
-        return KAnonymizeAccessor.anonymize(self._obj, quasi, frequency_set, k).sort_index()
+        anonymized_df = KAnonymizeAccessor.anonymize(self._obj, quasi, frequency_set, k).sort_index()
+
+        if inplace:
+            self._obj[:] = anonymized_df
+            return None
+        else:
+            return anonymized_df
