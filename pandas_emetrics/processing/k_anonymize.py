@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-# register function as pandas dataframe accessor
 @pd.api.extensions.register_dataframe_accessor("k_anonymize")
 class KAnonymizeAccessor:
      
@@ -10,12 +9,12 @@ class KAnonymizeAccessor:
 
     def is_number(value) -> bool:
         """
-        Returns true if a dtype is any numeric dtype
+        Returns true if value is any numeric dtype
         """
 
         return np.issubdtype(value, np.number)
 
-    def summary(partition: pd.DataFrame, quasi: list[str]) -> pd.DataFrame:
+    def summarize(partition: pd.DataFrame, quasi: list[str]) -> pd.DataFrame:
         """
         Generalize each partition for each quasi identifier based on min-max range.
         """
@@ -32,7 +31,7 @@ class KAnonymizeAccessor:
 
         return partition
 
-    def anonymize(partition, quasi, frequency_set, k):
+    def anonymize(partition: pd.DataFrame, quasi: list[str], frequency_set: list[tuple], k: int):
         """
         Recursively partitions the quasi identifiers
         """
@@ -52,7 +51,7 @@ class KAnonymizeAccessor:
                              KAnonymizeAccessor.anonymize(rhs, quasi, frequency_set, k)])
 
         # return partitioned grouping to be generalized
-        return KAnonymizeAccessor.summary(partition, quasi)
+        return KAnonymizeAccessor.summarize(partition, quasi)
 
     def __call__(self, quasi: list[str], k: int, inplace: bool=False) -> None | pd.DataFrame:
         """
