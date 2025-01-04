@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 @pd.api.extensions.register_dataframe_accessor("diff_privacy")
-class AddNoiseAccessor:
+class DiffPrivacyAccessor:
 
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
@@ -112,11 +112,11 @@ class AddNoiseAccessor:
         elif sensitivity == 'count':
             sens_vals = [(1 / epsilon) * len(columns)]
         elif sensitivity == 'mean':
-            sens_vals = [AddNoiseAccessor.calc_sens_mean(df[column], n) / epsilon for column in columns]
+            sens_vals = [DiffPrivacyAccessor.calc_sens_mean(df[column], n) / epsilon for column in columns]
         elif sensitivity == 'sum':
-            sens_vals = [AddNoiseAccessor.calc_sens_sum(df[column]) / epsilon for column in columns]
+            sens_vals = [DiffPrivacyAccessor.calc_sens_sum(df[column]) / epsilon for column in columns]
         elif sensitivity == 'median':
-            sens_vals = [AddNoiseAccessor.calc_sens_median(df[column], n) / epsilon for column in columns]
+            sens_vals = [DiffPrivacyAccessor.calc_sens_median(df[column], n) / epsilon for column in columns]
         else:
             raise ValueError('Incorrect sensitivity argument. Please use "count", "mean", "sum", or "median".')
   
