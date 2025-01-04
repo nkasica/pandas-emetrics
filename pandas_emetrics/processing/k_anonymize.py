@@ -79,6 +79,8 @@ class KAnonymizeAccessor:
 
         if k > self._obj.shape[0]:
             raise ValueError("K must be less than or equal to the number of samples in the DataFrame.")
+        elif k < 1:
+            raise ValueError("K must be greater than or equal to 1.")
 
         # get value counts for each quasi identifier
         frequency_set = {}
