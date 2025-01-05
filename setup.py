@@ -2,15 +2,14 @@ from setuptools import setup, find_packages
 
 setup(
     name='pandas_emetrics',
-    version='0.1.0.dev1',
+    version='1.0.0',
     description='A Python package integrating ethical considerations into Pandas DataFrame processing.',
     author='Noah Kasica',
     author_email='nkasica21@gmail.com',
     url='https://github.com/nkasica/pandas-emetrics',
     packages=find_packages(),
-    keywords=['data science', 'ethics', 'pandas', 'python3'],
+    keywords=['data science', 'ethics', 'pandas', 'numpy', 'python3'],
     classifiers=[
-        'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',
         'Intended Audience :: Education',
         'Intended Audience :: Science/Research',
