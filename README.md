@@ -9,4 +9,4 @@ This project would not have been possible without these great resources!
 - [l-Diversity](https://personal.utdallas.edu/~muratk/courses/privacy08f_files/ldiversity.pdf)
 - [Multivariate Mondrian Algorithm for k-anonymization](https://pages.cs.wisc.edu/~lefevre/MultiDim.pdf)
 - [Noise and Differential Privacy](https://arxiv.org/pdf/1309.3958)
-- A great [YouTube series](https://www.youtube.com/playlist?list=PLZeK3TZueogEhGK0kTztL5ALQ_MkxgFCv) touching on many ethics and security related topics
+- A great [YouTube series](https://www.youtube.com/playlist?list=PLZeK3TZueogEhGK0kTztL5ALQ_MkxgFCv) touching on many ethical and security related topics
