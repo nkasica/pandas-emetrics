@@ -25,8 +25,7 @@ classifiers = [
 readme = { file = "README.md", content-type = "text/markdown" }
 
 [project.urls]
-# Homepage = ""
-# Documentation = ""
+Documentation = "https://github.com/nkasica/pandas-emetrics/wiki/User-Guide"
 Repository = "https://github.com/nkasica/pandas-emetrics"
 Issues = "https://github.com/nkasica/pandas-emetrics/issues"
 
