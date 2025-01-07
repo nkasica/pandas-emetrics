@@ -4,8 +4,16 @@
   - [ ] Testing       
 
 # In Progress
-- [ ] Double check for possible optimizations
+
+### Before Publishing to PyPI
+- [ ] Find minimum required versions for ```pandas``` and ```numpy```
+- [ ] Remove ability to import Accessor classes (?)
+- [ ] Create better README.md for PyPI
+- [ ] Add more things to ```pyproject.toml``` (?)
+
+### After Above Items Completed
 - [ ] Publish to PyPI
+- [ ] Celebrate !!!
 
 # Completed
 - [X] Many things before this document was created ;)
@@ -13,4 +21,5 @@
 - [X] Unit testing for ```test_k_anonymize.py```
 - [X] test_many_quasi for ```test_k_anonymize.py```
 - [X] Update ```__init__.py```
-- [X] Switch to ```pyproject.toml``` 
+- [X] Switch to ```pyproject.toml```
+- [X] Double check for possible optimizations (currently looks good for initial release!)
