@@ -19,7 +19,6 @@ classifiers = [
         "Natural Language :: English",
         "License :: OSI Approved :: MIT License"
 ]
-
 readme = { file = "README.md", content-type = "text/markdown" }
 
 [project.urls]
