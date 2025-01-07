@@ -8,6 +8,9 @@ version = "1.0.0"
 authors = [
     { name = "Noah Kasica", email="nkasica21@gmail.com" } 
 ]
+maintainers = [
+    { name = "Noah Kasica", email="nkasica21@gmail.com" } 
+]
 description = "A Python package integrating ethical considerations into Pandas DataFrame processing."
 keywords = ["data science", "ethics", "pandas", "numpy", "python3"]
 classifiers = [
