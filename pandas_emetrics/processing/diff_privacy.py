@@ -7,51 +7,51 @@ class DiffPrivacyAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
-    def calc_sens_mean(column: pd.Series, n: int):
+    def calc_sens_mean(column: pd.Series, n: int) -> np.number:
         """
-        Calculates sensitivity for differential privacy when using the mean as a query
+        Calculates sensitivity when using the mean as a query
         """
     
-        # convert to nparray
         d = column.to_numpy()
-
         davg = np.average(d)
         dsum = np.sum(d)
 
         # finds max(|avg(all samples) - avg(all samples - curr sample)|) for each sample
-        # average(dprime) = (sum(d) - d[i]) / (n - 1)
-        # sensitivity[i] = |davg - average(dprime)|
-        sensitivities = np.abs(davg - (dsum - d) / n - 1)
+        # mean(d') = (sum(d) - d[i]) / (n - 1)
+        # sensitivity[i] = |davg - mean(d')|
+        sensitivities = np.abs((davg - (dsum - d)) / (n - 1))
 
         return np.max(sensitivities)
 
-    def calc_sens_sum(column: pd.Series):
+    def calc_sens_sum(column: pd.Series) -> np.number:
         """
-        Calculates sensitivity for differential privacy when using the sum as a query
+        Calculates sensitivity when using the sum as a query
         """
 
-        # min-max normalization so data points are between [0, 1]
-        # this helps prevent unbounded values and outliers affecting noise
         d = column.to_numpy()
         min_d = min(d)
         max_d = max(d)
+
+         # min-max normalization so data points are between [0, 1]
+        # this helps prevent unbounded values and outliers affecting added noise
         d = (d - min_d) / (max_d - min_d)
 
         # finds max(|sum(all samples) - sum(all samples - curr samples)|) for each sample
         return np.max(np.abs(d))
 
-    def calc_sens_median(column: pd.Series, n: int):
+    def calc_sens_median(column: pd.Series, n: int) -> np.number:
         """
-        Calculates sensitivity for differential privacy when using the median as a query
+        Calculates sensitivity when using the median as a query
         """
 
         d = column.to_numpy()
         d = np.sort(d)
-
         dmed = np.median(d)
+
+        # temporary value; sensitivity will never be < 0
         max_sens = -1.0
 
-        # compares max(|median(all samples) - median(all samples - current sample)) 
+        # compares max(|median(all samples) - median(all samples - current sample)|) 
         # for each sample with the current maximum sensitivity
         for i in range(n):
             dprime = np.concatenate((d[:i], d[i+1:])) # removes one element from the list at a time
@@ -63,12 +63,12 @@ class DiffPrivacyAccessor:
     def __call__(self, columns: list[str], epsilon: float=0.5, sensitivity: str='count', 
                  noise: str='laplace', inplace: bool=False) -> None | pd.DataFrame:
         """
-        Adds noise to the specifed columns in a way that is in-line with differential privacy techniques
+        Adds noise to the specifed columns in a manner similar to differential privacy. 
 
         Parameters
         ----------
         columns: list[str]
-            Numeric columns to add noise to
+            Columns to add noise to. Must be numeric.
             Example: columns=['Salary']
 
         epsilon: float
@@ -77,9 +77,9 @@ class DiffPrivacyAccessor:
             Example: epsilon=0.01
         
         sensitivity: 'count', 'mean', 'sum', or 'median'
-            Indicated which type of query is being perfomed on the DataFrame. In differential privacy,
-                sensitivity represents MAX(|f(D1) - f(D2)|). In our case, we are picking what function to 
-                use for 'f' in that equation.
+            Indicates which type of query is being perfomed on the DataFrame. In differential privacy,
+                sensitivity represents MAX(|f(D1) - f(D2)|), where D1 and D2 are databases that differ in 
+                only  one element or row. In our case, we are picking what function for f().
             Example: sensitivity='mean'
 
         noise: 'laplace' or 'gaussian'
@@ -101,7 +101,7 @@ class DiffPrivacyAccessor:
 
         # assert type paramter is valid
         if (noise != 'laplace' and noise != 'gaussian'):
-            raise ValueError('Incorrect type argument. Please use "laplace" or "gaussian".')
+            raise ValueError('Incorrect type parameter. Please use "laplace" or "gaussian".')
 
         # number of samples
         n = df.shape[0]
@@ -118,7 +118,7 @@ class DiffPrivacyAccessor:
         elif sensitivity == 'median':
             sens_vals = [DiffPrivacyAccessor.calc_sens_median(df[column], n) / epsilon for column in columns]
         else:
-            raise ValueError('Incorrect sensitivity argument. Please use "count", "mean", "sum", or "median".')
+            raise ValueError('Incorrect sensitivity parameter. Please use "count", "mean", "sum", or "median".')
   
         # add noise to each column
         for idx, column in enumerate(columns):
