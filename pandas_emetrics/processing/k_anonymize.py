@@ -31,7 +31,7 @@ class KAnonymizeAccessor:
 
         return partition
 
-    def anonymize(partition: pd.DataFrame, quasi: list[str], frequency_set: list[tuple], k: int):
+    def anonymize(partition: pd.DataFrame, quasi: list[str], frequency_set: list[tuple], k: int) -> pd.DataFrame:
         """
         Recursively partitions the quasi identifiers
         """
@@ -56,16 +56,19 @@ class KAnonymizeAccessor:
     def __call__(self, quasi: list[str], k: int, inplace: bool=False) -> None | pd.DataFrame:
         """
         Applies the multivariate mondrian algorithim to k-anonymize the DataFrame. This 
-        partitioning is relaxed, meaning equivalence classes can have overlapping bounds.
+        partitioning is relaxed, meaning equivalence classes can have overlapping bounds. Works for 
+        both numeric and categorical data.
 
         Parameters
         ----------
         quasi: list[str]
-            List of DataFrame's quasi identifiers
+            List of DataFrame's quasi identifiers to be anonymized.
             Example: quasi=['Age', 'Height', 'Weight']
+
         k: int
-            The k-value for anonymization
+            Level of anonymity. Represents the minimum number of samples in each equivalence class.
             Example: k=3
+
         inplace: bool
             Specifies whether or not this action modifies the DataFrame in-place, overriding current values.
             Defaults to False.
@@ -74,11 +77,13 @@ class KAnonymizeAccessor:
         Returns
         -------
         None | pd.DataFrame
-            Returns None in 'inplace=True'. Otherwise, returns k-anonymized DataFrame.
+            Returns None if 'inplace=True'. Otherwise, returns k-anonymized DataFrame.
         """ 
 
-        if k > self._obj.shape[0]:
-            raise ValueError(f"K={k}. K must be less than or equal to the number of samples in the DataFrame.")
+        samples = self._obj.shape[0]
+
+        if k > samples:
+            raise ValueError(f"K={k}. K must be less than or equal to the number of samples (n={samples}) in the DataFrame.")
         elif k < 1:
             raise ValueError(f"K={k}. K must be greater than or equal to 1.")
 
@@ -96,7 +101,6 @@ class KAnonymizeAccessor:
             # reassign dtypes to prevent warnings
             for col in anonymized_df.columns:
                 self._obj[col] = self._obj[col].astype(anonymized_df[col].dtype)
-
             self._obj[:] = anonymized_df
             return None
         else:
