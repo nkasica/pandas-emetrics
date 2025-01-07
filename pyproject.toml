@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling", "pandas", "numpy"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pandas_emetrics"
+version = "1.0.0"
+authors = [
+    { name = "Noah Kasica", email="nkasica21@gmail.com" } 
+]
+description = "A Python package integrating ethical considerations into Pandas DataFrame processing."
+keywords = ["data science", "ethics", "pandas", "numpy", "python3"]
+classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Education",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Healthcare Industry",
+        "Natural Language :: English",
+        "License :: OSI Approved :: MIT License"
+]
+
+readme = { file = "README.md", content-type = "text/markdown" }
+
+[project.urls]
+# Homepage = ""
+# Documentation = ""
+Repository = "https://github.com/nkasica/pandas-emetrics"
+Issues = "https://github.com/nkasica/pandas-emetrics/issues"
+
+
