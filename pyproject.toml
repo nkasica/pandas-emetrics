@@ -1,10 +1,11 @@
 [build-system]
-requires = ["hatchling", "pandas", "numpy"]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
 name = "pandas_emetrics"
 version = "1.0.0"
+dependencies = ["pandas", "numpy"]
 authors = [
     { name = "Noah Kasica", email="nkasica21@gmail.com" } 
 ]
