@@ -2,7 +2,7 @@ from pandas_emetrics.metrics import k_anonymity
 import pandas as pd
 import unittest
 import time
-    
+
 def create_df(k: int, cols: int) -> pd.DataFrame:
     """
     Creates a DataFrame that is 'k' anonymous with 'cols' number of columns
@@ -24,7 +24,7 @@ class TestKAnonymity(unittest.TestCase):
 
     def setUp(self):
         self.startTime = time.time()
-
+        
     def tearDown(self):
         t = time.time() - self.startTime
         print('%s: %.3f' % (self.id(), t))

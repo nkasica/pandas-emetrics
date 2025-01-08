@@ -1,34 +1,28 @@
 import pandas as pd
+import pandas_flavor as pf
 
-# register function as pandas dataframe accessor
-@pd.api.extensions.register_dataframe_accessor("k_anonymity")
-class KAnonymityAccessor:
+@pf.register_dataframe_method
+def k_anonymity(df: pd.DataFrame, quasi: list[str]) -> int:
+    """
+    Returns k-anonymity value of the DataFrame. 
 
-    def __init__(self, pandas_obj):
-        self._obj = pandas_obj
-
-    def __call__(self, quasi: list[str]) -> int:
-        """
-        Returns k-anonymity value of the DataFrame. 
-
-        Parameters
-        ----------
-        quasi: list[str]
-            List of DataFrame's quasi identifiers
-            Example: quasi=['Age', 'Height', 'Weight']
+    Parameters
+    ----------
+    quasi: list[str]
+        List of DataFrame's quasi identifiers
+        Example: quasi=['Age', 'Height', 'Weight']
         
-        Returns
-        -------
-        int
-            The calculated k value
-        """
+    Returns
+    -------
+    int
+        The calculated k value
+    """
 
-        # converts dataframe to tuples for optimized vector row operation
-        samples = self._obj[quasi].apply(tuple, axis=1)
+    # converts dataframe to tuples for optimized vector row operation
+    samples = df[quasi].apply(tuple, axis=1)
 
-        # count number of unique samples
-        equivalence_classes_counts = samples.value_counts()
+    # count number of unique samples
+    equivalence_classes_counts = samples.value_counts()
     
-        # return k, which is the length of the equivalence class with the min. unique samples
-        return equivalence_classes_counts.min()
-
+    # return k, which is the length of the equivalence class with the min. unique samples
+    return equivalence_classes_counts.min()

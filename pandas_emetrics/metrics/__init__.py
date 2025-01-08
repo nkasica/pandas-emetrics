@@ -1,4 +1,4 @@
-from .k_anonymity import KAnonymityAccessor
-from .l_diversity import LDiversityAccessor
+from .k_anonymity import k_anonymity
+from .l_diversity import l_diversity
 
-__all__ = ['KAnonymityAccessor', 'LDiversityAccessor']
+__all__ = ["k_anonymity", "l_diversity"]
