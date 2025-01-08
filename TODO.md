@@ -1,5 +1,4 @@
 # To Do
-- [ ] Create documentation with examples  
 - [ ] Implement [t closeness](https://www.cs.purdue.edu/homes/ninghui/papers/t_closeness_icde07.pdf) (will be in updated version)
   - [ ] Testing       
 
@@ -8,7 +7,6 @@
 ### Before Publishing to PyPI
 - [ ] Find minimum required versions for ```pandas``` and ```numpy```
 - [ ] Remove ability to import Accessor classes (?)
-- [ ] Create better README.md for PyPI
 - [ ] Add more things to ```pyproject.toml``` (?)
 
 ### After Above Items Completed
@@ -23,3 +21,5 @@
 - [X] Update ```__init__.py```
 - [X] Switch to ```pyproject.toml```
 - [X] Double check for possible optimizations (currently looks good for initial release!)
+- [X] Create documentation with examples
+- [X] Create better README.md for PyPI
