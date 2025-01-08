@@ -47,3 +47,14 @@ class SuppressAccessor:
             for column in columns:
                 df[column] = suppressor
             return df
+        
+def main():
+    df = pd.DataFrame({'Name': ['Skull Trooper', 'Brite Bomber', 'Renegade Raider'], 'Elims': ['12', '9', '19']})
+
+    # Apply data suppression on explicit identifier
+    df.suppress(columns=['Name'], suppressor='*', inplace=True)
+
+    # Display suppressed results
+    print(df.head(3))
+
+main()

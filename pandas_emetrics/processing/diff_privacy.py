@@ -77,7 +77,7 @@ class DiffPrivacyAccessor:
             Example: epsilon=0.01
         
         sensitivity: 'count', 'mean', 'sum', or 'median'
-            Indicates which type of query is being perfomed on the DataFrame. In differential privacy,
+            Indicates which type of query is being performed on the DataFrame. In differential privacy,
                 sensitivity represents MAX(|f(D1) - f(D2)|), where D1 and D2 are databases that differ in 
                 only  one element or row. In our case, we are picking what function for f().
             Example: sensitivity='mean'
