@@ -7,7 +7,7 @@
 ### Before Publishing to PyPI
 - [ ] Find minimum required versions for ```pandas``` and ```numpy```
 - [ ] Fix pandas not installing when using pip install
-- [ ] Fix docstrings not showing up
+- [ ] Fix function "__ is not accessed" error
 
 ### After Above Items Completed
 - [ ] Publish to PyPI
@@ -25,3 +25,4 @@
 - [X] Create better README.md for PyPI
 - [X] Remove ability to import Accessor classes
 - [X] Add more things to ```pyproject.toml```
+- [X] Fix docstrings not showing up
