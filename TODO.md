@@ -6,8 +6,8 @@
 
 ### Before Publishing to PyPI
 - [ ] Find minimum required versions for ```pandas``` and ```numpy```
-- [ ] Remove ability to import Accessor classes (?)
-- [ ] Add more things to ```pyproject.toml``` (?)
+- [ ] Fix pandas not installing when using pip install
+- [ ] Fix docstrings not showing up
 
 ### After Above Items Completed
 - [ ] Publish to PyPI
@@ -23,3 +23,5 @@
 - [X] Double check for possible optimizations (currently looks good for initial release!)
 - [X] Create documentation with examples
 - [X] Create better README.md for PyPI
+- [X] Remove ability to import Accessor classes
+- [X] Add more things to ```pyproject.toml```
