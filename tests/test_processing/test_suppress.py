@@ -15,12 +15,13 @@ class TestSupress(unittest.TestCase):
 
     def test_inplace(self):
         df, correct_df = create_sample_df()
+        orig_df = df.copy(deep=True)
 
         # supress inplace
-        new_df = df.suppress(columns=['ID'], suppressor='*', inplace=True)
+        df.suppress(columns=['ID'], suppressor='*', inplace=True)
 
         self.assertTrue(df.equals(correct_df))
-        self.assertTrue(df.equals(new_df))
+        self.assertFalse(df.equals(orig_df))
 
     def test_not_inplace(self):
          df, correct_df = create_sample_df()

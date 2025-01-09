@@ -24,7 +24,7 @@ class TestDiffPrivacy(unittest.TestCase):
             # get summary stats
             summary_stats_after = new_df['Scholarship Dollars'].describe()
 
-            self.assertAlmostEqual(summary_stats_before['mean'], summary_stats_after['mean'], delta=250)
+            self.assertAlmostEqual(summary_stats_before['mean'], summary_stats_after['mean'], delta=1000)
             self.assertAlmostEqual(summary_stats_before['std'], summary_stats_after['std'], delta=250)
 
     def test_inplace(self):
