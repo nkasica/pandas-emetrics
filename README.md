@@ -3,6 +3,8 @@
 
 Through `pandas-emetrics`, I aim to bring data ethics, a field far too often considered an afterthought, to the forefront of development for data scientists, analysts, researchers, teachers—virtually anyone working with potentially sensitive personal information. By allowing these techniques to be easily understandable and accessible, I hope that more people begin to realize the importance of data ethics.
 
+---
+
 ### Updates
 Version 1.0.0 is now released! Check it out [here](https://pypi.org/project/pandas-emetrics/)!
 
