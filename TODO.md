@@ -3,15 +3,7 @@
   - [ ] Testing       
 
 # In Progress
-
-### Before Publishing to PyPI
-- [ ] Find minimum required versions for ```pandas``` and ```numpy```
-- [ ] Fix pandas not installing when using pip install
 - [ ] Fix function "__ is not accessed" error
-
-### After Above Items Completed
-- [ ] Publish to PyPI
-- [ ] Celebrate !!!
 
 # Completed
 - [X] Many things before this document was created ;)
@@ -26,3 +18,5 @@
 - [X] Remove ability to import Accessor classes
 - [X] Add more things to ```pyproject.toml```
 - [X] Fix docstrings not showing up
+- [X] Fix pandas not installing when using pip install
+- [X] Publish to PyPI
