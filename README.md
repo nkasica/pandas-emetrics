@@ -5,7 +5,7 @@
 
 `pandas-emetrics` is a Python package integrating ethical data algorithms and metrics directly into [Pandas](https://pandas.pydata.org/docs/) DataFrame processing. `pandas-emetrics` provides the necessary tools for users to analyze and increase the level of privacy and anonymity in their datasets. Through techniques such as k-anonymity, differential privacy, and feature suppression, consumers and research participants can feel confident that their data is being handled in a secure, ethical manner.
 
-Through `pandas-emetrics`, I aim to bring data ethics, a field far too often considered an afterthought, to the forefront of development for data scientists, analysts, researchers, teachers—virtually anyone working with potentially sensitive personal information. By allowing these techniques to be easily understandable and accessible, I hope that more people begin to realize the importance of data ethics.
+Through `pandas-emetrics`, I aim to bring data ethics, a field far too often considered an afterthought, to the forefront of development for data scientists, analysts, researchers, teachers—virtually anyone working with potentially sensitive personal information. By allowing these techniques to be easily understandable and accessible, I hope that more people begin to realize the importance of ethically handling personal data.
 
 ---
 
